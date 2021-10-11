@@ -1,1 +1,29 @@
+package firstApp.java;
+import lejos.hardware.motor.Motor;
+import lejos.robotics.navigation.DifferentialPilot;
+import lejos.utility.Delay;
 
+
+public class Shrek {
+	public static void avancer(DifferentialPilot p,double i) {
+		p.travel(i);
+	}
+	public static void tourner(DifferentialPilot p,double angle) {
+		p.rotate(angle);
+	}
+	
+	//public static void main(String[] args) {
+		// TODO Auto-generated method stub
+	public static void main(String[] args) { {
+		DifferentialPilot pilot= new DifferentialPilot(1.3f, 3.1f,Motor.A,Motor.B,false);
+		
+		
+		avancer(pilot,20);
+		tourner(pilot,90);
+		
+		
+		Delay.msDelay(100);
+	}
+	
+}
+}
