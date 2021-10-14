@@ -11,7 +11,7 @@ public class ShrekMoteurs {
 
 	public static DifferentialPilot pilot= new DifferentialPilot(1.3f, 3.1f,Motor.A,Motor.B,false);
 	public static RegulatedMotor pinces = new EV3LargeRegulatedMotor(MotorPort.C);
-	private static Boussole b;
+	// private static Boussole b;
 	public static void avancer(DifferentialPilot p,double i) {
 		p.travel(i);
 	}
@@ -20,7 +20,7 @@ public class ShrekMoteurs {
 	}
 	public static void ouverturepinces(RegulatedMotor p,int angle) {
 		p.rotate(angle);
-		b.changementAngle(angle);
+		//b.changementAngle(angle);
 	}
 	
 	//public static void main(String[] args) {
