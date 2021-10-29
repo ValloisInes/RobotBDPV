@@ -107,6 +107,9 @@ public void shrekCourbeAvant (double radius , double angle) {
 	}
 
 // sensé effectuer un angle via le radius, semble mieu fonctionner que ShrekCourbeAvant, plus de test necessaire 
+//UPDATE
+// apres test .arc permet a Shrek d'avancer d'une certaine distance (le radius en metre) puis d'effectuer une rotation en ° d'un angle 
+
 public void shrekarc (double radius, double angle2) {
 	Shrek.arc(radius, angle2);
 }
