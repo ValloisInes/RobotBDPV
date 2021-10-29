@@ -1,49 +1,63 @@
 package test;
-
-import lejos.hardware.motor.EV3LargeRegulatedMotor;
+ 
 import lejos.hardware.motor.Motor;
-import lejos.hardware.port.MotorPort;
 import lejos.robotics.RegulatedMotor;
-import lejos.robotics.navigation.DifferentialPilot;
-import lejos.utility.Delay;
+//import lejos.robotics.RegulatedMotor;
+//import lejos.robotics.navigation.MovePilot;
+import lejos.robotics.navigation.MovePilot;
 
-public class ShrekMoteurs {
-
-	public static DifferentialPilot pilot= new DifferentialPilot(1.3f, 3.1f,Motor.A,Motor.B,false);
-	public static RegulatedMotor pinces = new EV3LargeRegulatedMotor(MotorPort.C);
-//	private static Boussole b;
-	public static void avancer(DifferentialPilot p,double i) {
-		p.travel(i);
-	}
-	public static void tourner(DifferentialPilot p,double angle) {
-		p.rotate(angle);
-	}
-	public static void ouverturepinces(RegulatedMotor p,int angle) {
-		p.rotate(angle);
-	//	b.changementAngle(angle);
-	}
-	
-	//public static void main(String[] args) {
-		// TODO Auto-generated method stub
-	public static void main(String[] args) { {
-		
-		
-		
-		avancer(pilot,20);
-		tourner(pilot,90);
-		/*pilot.setAcceleration(7);
-		pilot.rotate(90);
-		pilot.travel(14.9);
-		pilot.setTravelSpeed(7);
-		pilot.rotate(90);
-		pilot.travel(17.8);
-		pilot.setAcceleration(-3);
-		pilot.rotate(90);
-		pilot.travel(14.9);*/
-		ouverturepinces(pinces,20);
-		Delay.msDelay(100);
-	}
-	
+public class ShrekMoteurs extends Boussole{
+ 	private MovePilot pilot;
+ 	//private RegulatedMotor pinces;
+ 	
+ 	public ShrekMoteurs(){
+ 		
+       	pilot=new MovePilot(2.1f, 4.4f,Motor.A,Motor.B,false);
+       	//pinces = new EV3LargeRegulatedMotor(MotorPort.C);
+       	
+ 	}
+ 	
+ 	
+ 	public void avancer( double i) {
+       	pilot.travel(i);
+ 	}
+ 	public void tourner(double angle) {
+       	pilot.rotate(angle);
+       	changementAngle(angle);
+ 	}
+ 	public void testArc(double r) {
+ 		pilot.arcForward(r);
+ 	}
+ 	public void testearc(double r) {
+ 		pilot.arc(r,r);
+ 	}
+ 	/*public void ouverturepinces(int angle) {
+ 		//pinces.close();
+       	pinces.rotate(angle);
+       	pinces.close();
+ 	}*/
+ 	
+ 	//public static void main(String[] args) {
+       	// TODO Auto-generated method stub
+ 	public static void main(String[] args) {
+       	ShrekMoteurs sm=new ShrekMoteurs();
+       	//DifferentialPilot p=new DifferentialPilot(2.1f, 4.4f,Motor.A,Motor.B,false);
+       	//sm.avancer(1.4);
+       	//sm.tourner(90);
+       	/*pilot.setAcceleration(7);
+       	pilot.rotate(90);
+       	pilot.travel(14.9);
+       	pilot.setTravelSpeed(7);
+       	pilot.rotate(90);
+       	pilot.travel(17.8);
+       	pilot.setAcceleration(-3);
+       	pilot.rotate(90);
+       	pilot.travel(14.9);*/
+       //	sm.ouverturepinces(-200);
+       	sm.testArc(Math.PI/2);
+       	sm.testearc(90);
+       	sm.getD();
+       		
+ 	
 }
 }
-
