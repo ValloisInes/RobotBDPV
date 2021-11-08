@@ -2,11 +2,13 @@ package test;
  
 import lejos.hardware.motor.Motor;
 import lejos.robotics.RegulatedMotor;
+import lejos.hardware.BrickFinder;
 //import lejos.robotics.RegulatedMotor;
 //import lejos.robotics.navigation.MovePilot;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.motor.Motor;
 import lejos.hardware.port.MotorPort;
+import lejos.hardware.port.Port;
 import lejos.robotics.RegulatedMotor;
 
 import lejos.utility.Delay;
@@ -38,13 +40,15 @@ public class ShrekMoteurs extends ShrekQuiBouge  {
 	
 	//Constructeur
 
-	public ShrekMoteurs (ShrekBoussole B) {
+	// dans le main instancier les pinces avec unr egulated motor 
+	public ShrekMoteurs (ShrekBoussole B ) {    //, RegulatedMotor P) {
 		super(B);
-		this.pinces = new EV3LargeRegulatedMotor(MotorPort.C);
+		//this.pinces = P;
+		Port motorc = BrickFinder.getDefault().getPort("C");
+		this.pinces = new EV3LargeRegulatedMotor(motorc);
+		System.out.println("cestbon");
 
-		RegulatedMotor pinces = new EV3LargeRegulatedMotor(MotorPort.C);
 	}
-
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -164,11 +168,25 @@ public class ShrekMoteurs extends ShrekQuiBouge  {
 	public static void main(String[] args) {
 		
 		ShrekBoussole Boussole = new ShrekBoussole();
+	//	System.out.println("cestbon");
+	//	RegulatedMotor pinces = new EV3LargeRegulatedMotor(MotorPort.C);
+		//pinces.close();
+	//	pinces.rotate(-1000);
+		//Delay.msDelay(100);
+   
 		
-		ShrekMoteurs Shrek = new ShrekMoteurs(Boussole) ;
+	
 		
-		Shrek.shrekAvance(2);
-
+	//ShrekMoteurs Shrek = new ShrekMoteurs( Boussole, pinces) ;
+		
+		ShrekMoteurs Shrek = new ShrekMoteurs( Boussole);
+		
+	//Shrek.shrekAvance(2);
+	
+	//ShrekQuiBouge Shrek = new ShrekQuiBouge ( Boussole);
+	//Shrek.shrekAvance(2);
+	Shrek.shrekOuvrePincesSansPalai();
+	}
 
 	}
-}
+

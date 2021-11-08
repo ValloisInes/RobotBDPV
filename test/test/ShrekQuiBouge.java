@@ -1,7 +1,10 @@
 package test;
 
 import lejos.robotics.navigation.MovePilot ;
+import lejos.hardware.BrickFinder;
+import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.motor.Motor;
+import lejos.hardware.port.Port;
 import lejos.robotics.chassis.Chassis;
 import lejos.robotics.chassis.Wheel;
 import lejos.robotics.chassis.WheeledChassis;
@@ -37,7 +40,7 @@ private MovePilot Shrek ; // cette class aura  besoin d'un pilote normalement
 
 //==> Finalement ça sera aussi geré dans les methodes directement 
 
-private ShrekBoussole Boussole ; // Boussole de Shrek cf Class Boussole
+public ShrekBoussole Boussole ; // Boussole de Shrek cf Class Boussole
 
 
 
@@ -49,8 +52,11 @@ private ShrekBoussole Boussole ; // Boussole de Shrek cf Class Boussole
 public ShrekQuiBouge (ShrekBoussole B) {
 	
 //	this.Shrek = p;
-	Wheel leftWheel = WheeledChassis.modelWheel(Motor.B,0.056).offset(-0.06075); 
-	Wheel rightWheel = WheeledChassis.modelWheel(Motor.A, 0.056).offset(0.06075);
+	
+	Port motorb = BrickFinder.getDefault().getPort("B");
+	Port motora = BrickFinder.getDefault().getPort("A");
+	Wheel leftWheel = WheeledChassis.modelWheel(new EV3LargeRegulatedMotor(motorb),0.056).offset(-0.06075); 
+	Wheel rightWheel = WheeledChassis.modelWheel(new EV3LargeRegulatedMotor(motora), 0.056).offset(0.06075);
 	Chassis chassis = new WheeledChassis(new Wheel[] {leftWheel, rightWheel}, WheeledChassis.TYPE_DIFFERENTIAL);
 	Shrek = new MovePilot(chassis);
 	this.Boussole = B ;

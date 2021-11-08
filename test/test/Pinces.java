@@ -11,10 +11,14 @@ import lejos.utility.Delay;
 import lejos.*;
 
 public class Pinces {
+	
+	
+	
    public static void main(String[] args) {
 	   
 	   RegulatedMotor m = new EV3LargeRegulatedMotor(MotorPort.C);
-		m.rotate(-1000);
+		//m.rotate(1000);
+		m.close();
 		Delay.msDelay(100);
    }
 
