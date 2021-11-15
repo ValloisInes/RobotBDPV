@@ -12,6 +12,8 @@ import lejos.robotics.chassis.WheeledChassis;
 
 
 public class ShrekQuiBouge { // cette classe regroupe tout les actions relatives aux deplacements physique que Shrek peut et va effectuer
+	// Des actions de base :
+	
 	// il y aura avancer
 	// reculer
 	//tourner droite / gauche
@@ -23,6 +25,8 @@ public class ShrekQuiBouge { // cette classe regroupe tout les actions relatives
 	//Modifier la vitesse 
 	//Demarrer le robot
 	// Arreter l'action du robot 
+	
+	
 	
 //@PP
 	
@@ -78,9 +82,14 @@ public void shrekAvance (double distance ) {
 }
 
 
+public void shrekAvanceSynchro (double distance, boolean b ) {
+	Shrek.travel(distance, b);
+}
+
 // Shrek recule d'une distance rentré en parametre
 public void shrekRecule(double distance) {
 	Shrek.travel(- distance);
+
 }
 
 
@@ -220,5 +229,18 @@ public void shrekStop() {
 		// TODO Auto-generated method stub
 
 	}
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

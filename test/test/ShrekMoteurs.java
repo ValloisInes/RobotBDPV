@@ -15,8 +15,10 @@ import lejos.utility.Delay;
 import lejos.robotics.navigation.MovePilot;
 
 
-// Cette class represente toutes les actions possibles des moteurs de Shrek
+// Cette class represente toutes les actions possibles des moteurs de Shrek => Des actions de bases, et des fonctions avancées
 // Elle herite donc de ShrekQuiBouge
+
+//1) Action de bases :
 // On rajoute le moteur qui reste, celui des Pinces
 //on va ensuite definir les methodes des pinces
 //=>
@@ -24,6 +26,14 @@ import lejos.robotics.navigation.MovePilot;
 //Les pinces ont un contenue il faut pouvoir l'indiquer => Avec un palai ou sans palai
 // Les pinces peuvent se fermer
 // Les pinces peuvent s'ouvrir  
+
+
+
+//2) Passer à des fonctions avancées pour manipuler les palais sur le plateau=>
+
+//EDIT : CES FONCTIONS SERONT DANS LA CLASS COMMUNE "SHREK"
+
+	// action de retour de palai (validation derriere la marque blanche d'un palai)
 
 
 public class ShrekMoteurs extends ShrekQuiBouge  {
@@ -67,6 +77,7 @@ public class ShrekMoteurs extends ShrekQuiBouge  {
 	//false si les pinces sont vides 
 	
 	public boolean shrekPincesContenu() {
+		
 		return this.etatContenu ;
 	}
 
@@ -151,6 +162,13 @@ public class ShrekMoteurs extends ShrekQuiBouge  {
 		
 	}
 	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	
+	
+	
+	
+	
 	
 	
 	
@@ -179,13 +197,13 @@ public class ShrekMoteurs extends ShrekQuiBouge  {
 		
 	//ShrekMoteurs Shrek = new ShrekMoteurs( Boussole, pinces) ;
 		
-		ShrekMoteurs Shrek = new ShrekMoteurs( Boussole);
+	//	ShrekMoteurs Shrek = new ShrekMoteurs( Boussole);
 		
 	//Shrek.shrekAvance(2);
 	
 	//ShrekQuiBouge Shrek = new ShrekQuiBouge ( Boussole);
 	//Shrek.shrekAvance(2);
-	Shrek.shrekOuvrePincesSansPalai();
+//	Shrek.shrekOuvrePincesSansPalai();
 	}
 
 	}

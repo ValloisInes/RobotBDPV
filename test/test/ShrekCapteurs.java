@@ -58,10 +58,19 @@ public class ShrekCapteurs {
  
  	}
  	public static void main(String[] args) {
-       	ShrekCapteurs sc=new ShrekCapteurs();
+ 		ShrekBoussole Boussole = new ShrekBoussole() ; 
+    	ShrekCapteurs sc=new ShrekCapteurs();
+       	ShrekMoteurs Shrek = new ShrekMoteurs( Boussole);
+	
+       	Shrek.shrekAvanceSynchro(0.5, true);
+       //	while (shreck.isMoving())
+       	Delay.msDelay(10000);
+       	Shrek.shrekTourneDroite(20);
+       	
+       	
      //  	sc.distances();
       	//sc.couleur();
-      	sc.touche();
-       	Delay.msDelay(7000);
+     // 	sc.touche();
+     //  	Delay.msDelay(7000);
  	}
 }
