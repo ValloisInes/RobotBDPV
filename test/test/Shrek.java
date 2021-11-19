@@ -1,4 +1,4 @@
-package test.test;
+package test;
 
 public class Shrek {
 	// Cette class est la class mere regroupant les class ShrekCapteurs et ShrekMoteurs
