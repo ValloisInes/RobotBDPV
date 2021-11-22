@@ -44,6 +44,16 @@ public static boolean touche(EV3TouchSensor t) {
 	//}
 
 }
+	/*public static boolean istouched() {
+	final SampleProvider sp = toucher.getTouchMode(); 
+	float[] sample=new float[sp.sampleSize()];
+	sp.fetchSample(sample, 0);
+	if(sample[0] == 0)
+	    return false;
+	else 
+	    return true;
+}
+	*/
 public static void main(String[] args) {
 	distances(distances);
 	couleur(cs);
