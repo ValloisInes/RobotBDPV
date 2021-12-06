@@ -398,7 +398,7 @@ public class Shrek2 {
 		float angleOpti =0 ; 				
 		this.getShrekMoteurs2().getShrekQuiBouge().getPilot().setAngularSpeed(50);
 		this.getShrekMoteurs2().getShrekQuiBouge().shrekTourneGauche(95/2); // positionnement 		
-		this.updatePosition((float)90/2);
+		this.updatePosition((float)95/2);
 		this.getShrekMoteurs2().getShrekQuiBouge().shrekRotateWhile(-95); // droite negatif 
 		while(this.getShrekMoteurs2().getShrekQuiBouge().shrekIsMoving()) {				
 			if(DistanceOpti> this.getShrekCapteurs2().getCapteurUltraSonic().getDistanceActuelle()) {
