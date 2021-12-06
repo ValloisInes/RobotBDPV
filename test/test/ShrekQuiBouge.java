@@ -1,6 +1,7 @@
 package test;
 
 import lejos.robotics.navigation.MovePilot ;
+import lejos.utility.Delay;
 import lejos.hardware.BrickFinder;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.motor.Motor;
@@ -8,239 +9,379 @@ import lejos.hardware.port.Port;
 import lejos.robotics.chassis.Chassis;
 import lejos.robotics.chassis.Wheel;
 import lejos.robotics.chassis.WheeledChassis;
+import lejos.robotics.navigation.*;
+import lejos.hardware.Button;
 
 
+/**
+ * Class relative à tous les deplacements du robot qui permet de: <ul>
+ * - Instancier un MovePilot pour acceder aux methodes de deplacements. </ul> <ul>
+ * - Manipuler les deplacements (avancer, reculer, tourner..) </ul>
+ * 
+ * @author Pierre Parouty <p>
+ * @see lejos.robotics.navigation.MovePilot la documentation officielle de la class MovePilot.
+ *
+ */
+public class ShrekQuiBouge { 
 
-public class ShrekQuiBouge { // cette classe regroupe tout les actions relatives aux deplacements physique que Shrek peut et va effectuer
-	// Des actions de base :
+
+	/**
+	 * Un attribut MovePilot necessaire aux deplacements du robot.
+	 * @see lejos.robotics.navigation.MovePilot la documentation officielle de la class MovePilot.
+	 */
+	private MovePilot Shrek ;
+
 	
-	// il y aura avancer
-	// reculer
-	//tourner droite / gauche
-	// faire une courbe
-	// recuperer une position (relative a la boussole)
-	// renvoyer une position (relative a la boussole)
-	//accelerer
-	//descelerer 
-	//Modifier la vitesse 
-	//Demarrer le robot
-	// Arreter l'action du robot 
+	/**
+	 * Le constructeur de la class {@link ShrekQuiBouge}: <ul>
+	 * - On suit la procedure d'initialisation du MovePilot décrite dans la documentation MovePilot (les valeurs peuvent varier car ce sont nos propres mesures).</ul> <ul>
+	 * - On parametre le MovePilot sur les moteurs <b>A</b> et <b>B</b></ul>
+	 * @see lejos.robotics.navigation.MovePilot la documentation officielle de la class MovePilot pour voir la procedure d'instanciation.
+	 */
+	public ShrekQuiBouge () {    
+
+		Port motorb = BrickFinder.getDefault().getPort("B");
+		Port motora = BrickFinder.getDefault().getPort("A");
+		Wheel leftWheel = WheeledChassis.modelWheel(new EV3LargeRegulatedMotor(motorb),0.056).offset(-0.06075); 
+		Wheel rightWheel = WheeledChassis.modelWheel(new EV3LargeRegulatedMotor(motora), 0.056).offset(0.06075);
+		Chassis chassis = new WheeledChassis(new Wheel[] {leftWheel, rightWheel}, WheeledChassis.TYPE_DIFFERENTIAL);
+		Shrek = new MovePilot(chassis);
+		}
 	
 	
-	
-//@PP
-	
-	
-	
-private MovePilot Shrek ; // cette class aura  besoin d'un pilote normalement 
-
-//private double angle; // potentielle angle pour tourner
-
-// ==> FInalement ça sera gerer dans les methodes directement
-
-
-
-//private double distance ; // potentielle distance a parcourir
-
-//==> Finalement ça sera aussi geré dans les methodes directement 
-
-public ShrekBoussole Boussole ; // Boussole de Shrek cf Class Boussole
-
-
-
-
-
-
-// Constructeur de ShrekQuiBouge, on instance un pilot et une boussole, on place la position de depart  a 0 
-// A MODIFIER LA BOUSSOLE EN FUR ET A MESURE 
-public ShrekQuiBouge (ShrekBoussole B) {
-	
-//	this.Shrek = p;
-	
-	Port motorb = BrickFinder.getDefault().getPort("B");
-	Port motora = BrickFinder.getDefault().getPort("A");
-	Wheel leftWheel = WheeledChassis.modelWheel(new EV3LargeRegulatedMotor(motorb),0.056).offset(-0.06075); 
-	Wheel rightWheel = WheeledChassis.modelWheel(new EV3LargeRegulatedMotor(motora), 0.056).offset(0.06075);
-	Chassis chassis = new WheeledChassis(new Wheel[] {leftWheel, rightWheel}, WheeledChassis.TYPE_DIFFERENTIAL);
-	Shrek = new MovePilot(chassis);
-	this.Boussole = B ;
-	Boussole.PositionDepart = (double) 0 ; // a voir si on regle pas la position de depart directement dans la class boussole 
-}
-
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-// AVANCER / RECULER
-
-
-// Shrek avance d'une distance en metre rentrée en parametre
-
-public void shrekAvance (double distance ) {
-	Shrek.travel(distance);
-}
-
-
-public void shrekAvanceSynchro (double distance, boolean b ) {
-	Shrek.travel(distance, b);
-}
-
-// Shrek recule d'une distance rentré en parametre
-public void shrekRecule(double distance) {
-	Shrek.travel(- distance);
-
-}
-
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-// TOURNER / COURBER
-
-
-
-//Shrek tourne vers la gauche, l'angle et rentré en parametre en °
-public void shrekTourneGauche (double angle) {
-	Shrek.rotate(angle);
-}
-
-
-//Shrek tourne vers la droite d'un angle rentré en parametre
-public void shrekTourneDroite ( double angle) {
-	Shrek.rotate(-angle);
-}
-
-//Shrek avance en effectuant une courbe 
-// Si le radius est de 0 la rotation est sur place 
-// 
-
-public void shrekCourbeAvant (double radius , double angle) {
-	Shrek.travelArc( radius ,  angle) ;
-		
+	/**
+	 * Methode pour recuperer le MovePilot et l'utiliser dans d'autre class.
+	 * @return {@link #Shrek} <p>
+	 * @see lejos.robotics.navigation.MovePilot la documentation officielle de la class MovePilot.
+	 */
+	public MovePilot getPilot() {
+		return this.Shrek;
 	}
 
-// sensé effectuer un angle via le radius, semble mieu fonctionner que ShrekCourbeAvant, plus de test necessaire 
-//UPDATE
-// apres test .arc permet a Shrek d'avancer d'une certaine distance (le radius en metre) puis d'effectuer une rotation en ° d'un angle 
-
-public void shrekarc (double radius, double angle2) {
-	Shrek.arc(radius, angle2);
-}
 
 
+	/**
+	 * Methode permettant d'avancer en ligne droite d'une distance rentrée en parametre.
+	 * @param distance <p>
+	 * @see lejos.robotics.navigation.MovePilot la documentation officielle de la class MovePilot pour la methode .travel(double distance).
+	 */
+	public void shrekAvance (double distance ) {
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		Shrek.travel(distance);
+	}
 
-// MODIFICATION DE POSITION
-
-// modifie dans la boussole de SHrek la position actuelle 
-
-public double shrekUpdatePosition (double position) {
-	return this.Boussole.PositionActuelle + position ;
-}
-
-
-//Renvoyer la position actuelle de SHrek
-
-public double  shrekGivePosition()     { //(ShrekQuiBouge S) {
-	return this.Boussole.PositionActuelle ;
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
-
-
-
-
-// ACCELERATION / DESCELLERATION
-
-// Shrek accelere d'une certaine valeur, s'additionnant a la vitesse actuelle
-
-// ATTENTION : il s'agit de l' ACCELERATION de debut et fin d'action, PAS de la vitesse
-public void shrekAccelere (double acceleration) {
-	double accelerationactuelle = this.Shrek.getLinearAcceleration();
-	this.Shrek.setLinearAcceleration(accelerationactuelle + acceleration);
-}
 	
+	/**
+	 * Methode permettant de reculer en ligne droite d'une distance entrée en parametre.
+	 * @param distance <p>
+	 * @see lejos.robotics.navigation.MovePilot la documentation officielle de la class MovePilot pour la methode .travel(double distance).
+	 */
+	public void shrekRecule(double distance) {
+		Shrek.travel(- distance);
 
-//Shrek DESCELERE d'une valeur, toujours a propos d'acceleration et non de vitesse
-public void shrekDescelere( double desceleration) {
-	double accelerationactuelle =this.Shrek.getLinearAcceleration();
-	this.Shrek.setLinearAcceleration(accelerationactuelle - desceleration);
-}
-
-
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	}
 
 
 
+	/**
+	 * Methode permettant d'effectuer une rotation (donc de tourner) vers la gauche, d'un angle rentré en parametre.
+	 * @param angle <p>
+	 * @see lejos.robotics.navigation.MovePilot la documentation officielle de la class MovePilot pour la methode .rotate(double angle)
+	 */
+	public void shrekTourneGauche (double angle) {
+		Shrek.rotate(angle);
+	}
 
 
-
-// VARIATION VITESSE
-
-// Additionne la vitesse actuelle du robot avec une valeur rentré en parametre, modifie la VITESSE du robot 
-public void shrekSpeeding (double vitessePlus) {
-	double vitesseactuelle = this.Shrek.getLinearSpeed();
-	this.Shrek.setLinearSpeed(vitesseactuelle + vitessePlus);
-}
 	
-// soustrait la vitesse actuelle avec une vitesse rentrée en parametre 
-public void shrekNoMoreSpeed (double vitesseMoins) {
-	double vitesseactuelle = this.Shrek.getLinearSpeed();
-	this.Shrek.setLinearSpeed(vitesseactuelle + vitesseMoins);
-}
+	/**
+	 * methode permettant d'effectuer une rotation (donc de tourner) vers la droite, d'un angle rentré en parametre. Pour aller <b>à droite</b>, la valeur de l'angle doit être <b>negative</b>.
+	 * @param angle <p>
+	 * @see lejos.robotics.navigation.MovePilot la documentation officielle de la class MovePilot pour la methode .rotate(double angle)
+	 */
+	public void shrekTourneDroite ( double angle) {
+		Shrek.rotate(-angle);
+	}
+
+
+
 	
+	/**
+	 * Methode permettant d'effectuer une rotation soit à droite, soit a gauche, en laissant s'exécuter les instructions suivante dans le programme :<ul>
+	 * - Si l'angle est negatif la rotation sera a droite, sinon elle sera a gauche. </ul> <ul>
+	 * - On appelle la methode .rotate(double angle, boolean immediateReturn) et on fixe le boolean sur <i> true </i> indiquant qu'on autorise les instructions suivantes à s'exécuter. </ul>
+	 * @param angle <p>
+	 * @see lejos.robotics.navigation.MovePilot la documentation officielle de la class MovePilot pour la methode .rotate(double angle, boolean immediateReturn).
+	 */
+	public void shrekRotateWhile(double angle) { 
+		Shrek.rotate(angle, true);
 
 
+	}
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// DEMARAGE ROBOT
-
-// On indique que Shrek ira en avant tant qu'il se deplacera
-
-public void shrekEnAvant() {
-	this.Shrek.forward();
-}
-
-// On indique que Shrek ira en arriere
-public void shrekEnArriere() {
-	this.Shrek.backward();
-}
-
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// ARRET DU ROBOT
-
-
-//Shrek arrete tout et decide de faire une pause 
-
-public void shrekStop() {
-	this.Shrek.stop();
-}
 	
+	/**
+	 * Methode permettant d'effectuer un deplacement en ligne droite et en laissant les instructions suivante du programme s'éxécuter: <ul>
+	 * - Si la valeur rentrée en parametre est <b>positive, le robot avance</b> de cette distance, si elle est <b>negative le robot recule </b>de cette distance. </ul> <ul>
+	 * - On fixe le boolean de la methode .travel(double distance, boolean immediateReturn) sur <i> true </i> indiquant qu'on laisse les instructions suivantes s'executer, sans attendre la fin de celle-ci. </ul>
+	 * @param distance <p>
+	 * @see lejos.robotics.navigation.MovePilot la documentation officielle de la class MovePilot pour la methode .travel(double distance, boolean immediateReturn).
+	 */
+	public void shrekMoveWhile(double distance) {
+		Shrek.travel(distance, true);
+	}
+
+
+	/**
+	 * Methode qui indique si le robot est en mouvement.
+	 * @return true </b> </i> si le robot est en mouvement, <i> <b> false </b> </i> sinon. <p>
+	 * @see lejos.robotics.navigation.MovePilot la documentation officielle de la class MovePilot pour la methode .isMoving()
+	 */
+	public boolean shrekIsMoving() {
+		return Shrek.isMoving();
+	}
+
+	
+	/**
+	 * Methode qui permet de faire <b>avancer</b> le robot en ligne droite, d'une <b>distance indeterminée</b>. Le mieu c'est de l'utiliser dans une condition ou avec un while(isMoving).
+	 * @see lejos.robotics.navigation.MovePilot la documentation officielle de la class MovePilot pour la methode .forward()
+	 */
+	public void shrekEnAvant() {
+		this.Shrek.forward();
+
+	}
+
+	
+	/**
+	 * Methode qui permet d'arreter tous mouvement en cours du robot.
+	 * @see lejos.robotics.navigation.MovePilot la documentation officielle de la class MovePilot pour la methode .stop() 
+	 */
+	public void shrekStop() {
+
+		this.Shrek.stop();
+	}
+
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		//droite = negatif pour rotation 
+
+		Shrek2 s = new Shrek2(); // le 2 est le nouveeau 6 dans shrek2 ET dans shrekultraSonic donc dans testligne et getcolor + constructeur + .quiMarque les 6 remplacépar des 2 
+
+
+		/*	s.getShrekMoteurs2().getShrekQuiBouge().shrekRotateNormal(-90);
+s.updatePosition(-90);	
+
+s.getShrekMoteurs2().getShrekQuiBouge().shrekRotateNormal(-60);
+s.updatePosition(-60);
+
+s.getShrekMoteurs2().getShrekQuiBouge().shrekRotateNormal(100);
+s.updatePosition(100);
+System.out.println(s.getPosition());
+Delay.msDelay(3000);
+
+s.retourVersLangle0();*/
+		/*	s.getShrekMoteurs2().getShrekQuiBouge().shrekRotateNormal(140);
+		s.getShrekMoteurs2().getShrekQuiBouge().shrekRotateNormal(-130.5);
+		s.updatePosition((float)10.5);*/
+
+
+		//s.rechercheGraalOptimisePalai2(180);
+
+		//	s.m.getShrekPinces().shrekOuvrePincesSansPalai(610);
+
+		//s.rechercheGraalOptimisePalai2(90);
+
+		//	s.m.getShrekPinces().shrekFermePincesSansPalai(310);
+
+		/*	s.getETAT().setDemarrage(true);
+		s.getETAT().setRecherchePalai2(false);
+
+		s.setPositionRecherche();
+		s.Run();*/
+
+		//	s.testBut();
+
+
+		//	s.getShrekMoteurs2().getShrekPinces().shrekFermePincesSansPalai(310);
+		//s.testBut();
+		/*Button.waitForAnyPress();
+	if(Button.ENTER.isDown()) {
+
+
+	/*	s.Run();
+	}
+s.Run();*/
+
+		//	s.testPremierPalai();
+		//s.m.getShrekPinces().shrekFermePincesSansPalai(930);
+		//	s.Run();*/
+
+		//	s.vaVersPalai2();
+
+		//s.retour0();
+		//	s.retourVersLangle0();
+
+
+		//	s.rechercheGraalOptimise(180);
+
+		//	Delay.msDelay(3000);
+		//s.m.getShrekPinces().shrekOuvrePincesSansPalai(620);
+		/*	s.getShrekMoteurs2().getShrekQuiBouge().shrekRotateNormal(140);
+		s.updatePosition(140);
+		s.getShrekMoteurs2().getShrekQuiBouge().shrekRotateNormal(-170);
+		s.updatePosition(-170);
+		s.c.getCapteurTouche().status =true;
+		s.recupereUnPalai();*/
+
+		//s.premierPalai();
+		//	Delay.msDelay(3000);
+		//	s.m.getShrekQuiBouge().shrekAvance(-1);
+		//s.testligne();
+		//s.quiMarque(0, 0); + 600 ratio 
+		// s.m.getShrekPinces().shrekFermePincesSansPalai(2000);
+
+		// s.m.getShrekQuiBouge().shrekTourneDroite(13);
+		//s.m.getShrekQuiBouge().shrekTourneDroite(167);
+
+		//	s.m.getShrekQuiBouge().shrekAvance(1);
+
+		//s.m.getShrekQuiBouge().shrekTourneDroite(10);
+
+		//s.testPremierPalai();
+
+		//	s.Run();
+
+		//	s.rechercheGraalOptimise(90);
+
+
+		//s.test
+
+		//	s.testpince3();
+
+		//	s.testPinces2();
+
+
+		//	s.m.getShrekPinces().shrekOuvrePincesSansPalai(310);
+
+		//s.testBut();
+
+		//	s.m.getShrekQuiBouge().shrekAvance(1);
+
+		//	s.testligne();
+
+		/*	s.c.getCapteurCouleurs().getColor();
+		Delay.msDelay(3000);
+		s.c.getCapteurCouleurs().getColor();
+		Delay.msDelay(3000);
+		s.c.getCapteurCouleurs().getColor();
+		Delay.msDelay(3000);
+		s.c.getCapteurCouleurs().getColor();
+		Delay.msDelay(3000);
+		s.c.getCapteurCouleurs().getColor();
+		Delay.msDelay(3000);
+		s.c.getCapteurCouleurs().getColor();
+		Delay.msDelay(3000);*/
+
+		//	s.testPremierPalai();
+
+
+
+		//	s.premierPalai();*/
+
+		//	s.rechercheGraalOptimise(90);
+
+		/*	s.m.getShrekQuiBouge().shrekMoveWhile(1);
+		while(s.m.getShrekQuiBouge().shrekIsMoving()) {
+		s.m.getShrekQuiBouge().shrekTourneGauche(45);
+		}*/
+
+		//	s.m.getShrekQuiBouge().getPilot().travelArc(60, 60);
+
+		//s.m.getShrekQuiBouge().getPilot().
+
+		//	s.m.getShrekQuiBouge().shrekCourbeAvant(50, 60);
+
+		//	s.m.getShrekQuiBouge().getPilot().arc(0.6, 90);
+
+		//	s.testPinces2();
+
+		//	s.testligne();
+
+		//s.c.getCapteurCouleurs().getColor();
+
+
+		//	s.rechercheDuGraal();
+
+		/*Delay.msDelay(3000);
+		s.m.getShrekQuiBouge().shrekSpeeding(50);
+		Delay.msDelay(3000);
+		System.out.println(	s.m.getShrekQuiBouge().getPilot().getLinearSpeed());
+		Delay.msDelay(3000);
+
+		System.out.println(	s.m.getShrekQuiBouge().getPilot().getMaxLinearSpeed());
+		Delay.msDelay(3000);
+		 */
+
+		/*Delay.msDelay(3000);
+	System.out.println(	s.m.getShrekQuiBouge().getPilot().getLinearSpeed());  0.296
+	Delay.msDelay(3000);	*/
+		/*Delay.msDelay(5000);
+
+		System.out.println(		s.m.getShrekQuiBouge().getPilot().getMaxLinearSpeed()); //0.371
+
+	/	Delay.msDelay(5000);
+
+		System.out.println(		s.m.getShrekQuiBouge().getPilot().getAngularSpeed()); // 279
+
+		Delay.msDelay(5000);
+
+		System.out.println(		s.m.getShrekQuiBouge().getPilot().getMaxAngularSpeed()); //349
+		Delay.msDelay(5000);
+
+	//	s.rechercheGraalOptimise();
+
+		//s.rechercheDuGraal();
+
+
+
+	//	s.rechercherPaletPlusProche(180);
+
+	//	s.testPinces();
+
+	/*	Delay.msDelay(3000);
+
+		System.out.println(s.c.shrek1.getDistance());
+		Delay.msDelay(3000);
+		System.out.println(s.c.shrek1.getDistance());
+		Delay.msDelay(3000);
+		System.out.println(s.c.shrek1.getDistance());
+		Delay.msDelay(3000);
+		System.out.println(s.c.shrek1.getDistance());
+		Delay.msDelay(3000);
+		System.out.println(s.c.shrek1.getDistance());
+		Delay.msDelay(3000);
+		System.out.println(s.c.shrek1.getDistance());
+
+	//	s.rechercheDuGraal2();*/
+
+
+		//s.m.getShrekQuiBouge().shrekAvance(0.2);
+
+
+
 
 	}
-	
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
 
 }
