@@ -602,7 +602,7 @@ public class Shrek2 {
 	 * 
 	 */
 	public void Run() {
-		while((this.getETAT().getVictoire()==false)&& (this.getShrekCapteurs2().getCapteurCouleurs().getColor()!=7 && (this.getCompteur()!=9))){
+		while((this.getETAT().getVictoire()==false)&& (this.getCompteur()!=9)){
 			while(this.getETAT().getDemarrage()==true) {
 				this.getETAT().setPremierPalai(true);
 				this.getETAT().setDemarrage(false);
